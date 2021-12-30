@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Table,Button  } from 'react-bootstrap';
-import { Redirect } from 'react-router';
+import DetailPokemon from './DetailPokemon';
+import globalVariable from '../../globalVariable';
+import axios from 'axios';
+
+const {baseUrlAPI} = globalVariable;
 
 class DataPokemon extends Component {
     state = {
@@ -11,11 +15,28 @@ class DataPokemon extends Component {
        this.setState({
            isDetail : true
        })
+       this.getDetailPokemon(params)
+    }
+
+    handleBack(){
+        this.setState({
+            isDetail : !this.state.isDetail
+        })
+    }
+
+    getDetailPokemon = async (name) => {
+        const url = baseUrlAPI + "pokemon/"+name
+        const detail = await axios.g
     }
     render(){
-        console.log(this.state.isDetail)
         const dataPokemon = this.props.data
-        if(this.state.isDetail) return <div>sa</div>
+        if(this.state.isDetail) return (
+            <div>
+                <DetailPokemon />
+                <Button onClick={() => this.handleBack()} variant="primary" size="sm">Back</Button>
+            </div>
+        )
+        
         return (
             <div>
                 <Table striped bordered hover size="sm">
