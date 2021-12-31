@@ -7,6 +7,11 @@
     cursor: pointer;
     background-color: rgb(233, 229, 229);
 }
+
+.my-image{
+    width: 9%;
+}
+
 .card-title{
     text-align: center;
 }
