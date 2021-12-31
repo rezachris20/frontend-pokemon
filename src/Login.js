@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
-import Navbar from "../src/pages/components/Navbar"
 
 export default function Login() {
   const [username, setUsername] = useState("");

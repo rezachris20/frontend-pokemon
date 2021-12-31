@@ -10,6 +10,7 @@ import "./Navbar.css"
 import Login from '../../Login'
 import Register from '../../Register'
 import ListPokemon from "../ListPokemon/ListPokemon";
+import MyPokemon from "../MyPokemon/MyPokemon";
 
 
 export default function Header() {
@@ -28,6 +29,7 @@ export default function Header() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto">
               <Link className="cstm-navlink" to="/list-pokemon">List Pokemon</Link>
+              <Link className="cstm-navlink" to="/my-pokemon">My Pokemon</Link>
               <Link className="cstm-navlink" to="/login">Login</Link>
               <Link className="cstm-navlink" to="/register">Register</Link>
             </Nav>
@@ -37,6 +39,9 @@ export default function Header() {
         <Switch>
           <Route path="/list-pokemon">
             <ListPokemon />
+          </Route>
+          <Route path="/my-pokemon">
+            <MyPokemon />
           </Route>
           <Route path="/login">
             <Login />

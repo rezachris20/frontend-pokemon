@@ -1,67 +1,97 @@
-import React, { Component } from 'react'
-import { Table,Button  } from 'react-bootstrap';
-import DetailPokemon from './DetailPokemon';
-import globalVariable from '../../globalVariable';
-import axios from 'axios';
+import React, { Component } from "react";
+import { Table, Button } from "react-bootstrap";
+import DetailPokemon from "./DetailPokemon";
+import globalVariable from "../../globalVariable";
+import axios from "axios";
+import "./ListPokemon.css";
 
-const {baseUrlAPI} = globalVariable;
+const { baseUrlAPI } = globalVariable;
 
 class DataPokemon extends Component {
-    state = {
-        isDetail : false
-    }
+  state = {
+    isDetail: false,
+    detailData: [],
+    moveAndType: [],
+  };
 
-    detailPokemon(params) {
-       this.setState({
-           isDetail : true
-       })
-       this.getDetailPokemon(params)
-    }
+  detailPokemon(id, name, image) {
+    this.setState({
+      isDetail: true,
+      detailData: {
+        id: id,
+        name: name,
+        image: image,
+      },
+    });
 
-    handleBack(){
-        this.setState({
-            isDetail : !this.state.isDetail
-        })
-    }
+    this.getDetailPokemon(name);
+  }
 
-    getDetailPokemon = async (name) => {
-        const url = baseUrlAPI + "pokemon/"+name
-        const detail = await axios.g
-    }
-    render(){
-        const dataPokemon = this.props.data
-        if(this.state.isDetail) return (
-            <div>
-                <DetailPokemon />
-                <Button onClick={() => this.handleBack()} variant="primary" size="sm">Back</Button>
-            </div>
-        )
-        
-        return (
-            <div>
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dataPokemon.map((list) => {
-                            return(
-                                <tr key={list.name}>
-                                    <td>{list.name}</td>
-                                    <td>
-                                        <Button onClick={() => this.detailPokemon(list.name)} variant="primary" size="sm">Detail</Button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table >
-            </div>
-        )
-    }
+  handleBack() {
+    this.setState({
+      isDetail: !this.state.isDetail,
+    });
+  }
+
+  getDetailPokemon = async (name) => {
+    const url = baseUrlAPI + "pokemon/" + name;
+    const detail = await axios.get(url);
+    this.setState({
+      moveAndType: detail.data,
+    });
+  };
+  render() {
+    const dataPokemon = this.props.data;
+    if (this.state.isDetail)
+      return (
+        <div>
+          <Button onClick={() => this.handleBack()} variant="primary" size="sm">
+            Back
+          </Button>
+          <DetailPokemon
+            detail={this.state.detailData}
+            additional={this.state.moveAndType}
+          />
+        </div>
+      );
+
+    return (
+      <div>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th className="th-name">Name</th>
+              <th className="th-image">Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataPokemon.map((list) => {
+              return (
+                <tr key={list.name}>
+                  <td
+                    onClick={() =>
+                      this.detailPokemon(list.id, list.name, list.image)
+                    }
+                  >
+                    {list.name}
+                  </td>
+                  <td>
+                    <img
+                      onClick={() =>
+                        this.detailPokemon(list.id, list.name, list.image)
+                      }
+                      className="my-image"
+                      src={list.image}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
+    );
+  }
 }
 
-export default DataPokemon
+export default DataPokemon;

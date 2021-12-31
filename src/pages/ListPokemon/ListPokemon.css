@@ -1,0 +1,12 @@
+.my-image{
+    width: 9%;
+}
+
+.my-image:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.th-name{
+    width: 50%;
+}
