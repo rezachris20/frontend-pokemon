@@ -7,16 +7,16 @@ import globalVariable from "../../globalVariable";
 
 const { baseUrlAPI } = globalVariable;
 
+
 class DetailPokemon extends Component {
   constructor(props){
     super(props)
-    console.log(props)
     this.state = {
       isShow: false,
       pokemon_id : props.detail.id,
       pokemon_name : props.detail.name,
       pokemon_nickname :"",
-      user_id: 1,
+      user_id: 0,
       image_url:props.detail.image
     };
 
@@ -64,17 +64,29 @@ class DetailPokemon extends Component {
       user_id:this.state.user_id,
       image_url:this.state.image_url,
     }
-    console.log(data)
+    console.log(data);
     await axios.post(url,data)
     .then(function(res){
-      console.log(res)
+      swal("Register nickname Success", {
+        icon: "success",
+      });
+      self.closeModal();
     })
     .catch(function(err){
-      console.log(err)
+      swal("Register nickname Failed", {
+        icon: "error",
+      });
     })
   }
 
+  componentDidMount(){
+    let userID = parseInt(localStorage.getItem("id"))
+    this.setState({user_id : userID})
+  }
+
   render() {
+    const userID = this.state.user_id
+
     const detailPokemon = this.props.detail;
     const additionalPokemon = this.props.additional;
     if (additionalPokemon.length == 0) return <div></div>;
@@ -125,20 +137,20 @@ class DetailPokemon extends Component {
               </div>
               <div>
                 <div className="row">
+                  {
+                    (userID != null) ? <Button
+                    variant="info"
+                    size="sm"
+                    title="Success Rate 50%. Try now!"
+                    onClick={() => {
+                      this.catchPokemon(additionalPokemon.id);
+                    }}
+                  >
+                    Catch Me
+                  </Button>:<div></div>
+                  }
                   <div>
-                    <Button
-                      variant="info"
-                      size="sm"
-                      title="Success Rate 50%. Try now!"
-                      onClick={() => {
-                        this.catchPokemon(additionalPokemon.id);
-                      }}
-                    >
-                      Catch Me
-                    </Button>
-                  </div>
-                  <div>
-                    <Alert variant="danger">Failed to catching</Alert>
+                    
                   </div>
                 </div>
               </div>

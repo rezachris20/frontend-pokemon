@@ -1,20 +1,18 @@
-import React,{Component, Fragment} from "react";
-import globalVariable from '../../globalVariable';
-import axios from 'axios';
+import React from "react";
+import globalVariable from "../../globalVariable";
 
-import DataMyPokemon from './DataMyPokemon';
 
-const {baseUrlAPI} = globalVariable;
+import DataMyPokemon from "./DataMyPokemon";
 
-export default class MyPokemon extends Component {
+const { baseUrlAPI } = globalVariable;
 
-    render(){
-        return(
-            <Fragment>
-                <div className="col-md-12 mt-5">
-                    <DataMyPokemon />
-                </div>
-            </Fragment>
-        )
-    }
+export default function MyPokemon(){
+  let userID = localStorage.getItem("id")
+    return (
+      <div>
+        <div className="col-md-12 mt-5">
+          <DataMyPokemon userID={userID} />
+        </div>
+      </div>
+    );
 }

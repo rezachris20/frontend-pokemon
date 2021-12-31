@@ -9,7 +9,7 @@ const { baseUrlAPI } = globalVariable;
 
 export default class DataMyPokemon extends Component {
   constructor(props) {
-    
+    console.log(props)
     super(props);
     this.state = {
       isShow: false,
@@ -23,7 +23,7 @@ export default class DataMyPokemon extends Component {
 
   getListPokemon = async () => {
     var self = this;
-    const url = baseUrlAPI + "pokemon/list/1";
+    const url = baseUrlAPI + "pokemon/list/"+this.props.userID;
 
     const pokemon = await axios
       .get(url)
@@ -74,7 +74,6 @@ export default class DataMyPokemon extends Component {
         self.getListPokemon();
       })
       .catch(function (err) {
-          console.log(err)
         swal("Release Failed", {
           icon: "error",
         });

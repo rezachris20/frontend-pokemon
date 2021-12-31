@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import "./Navbar.css"
 import Login from '../../Login'
@@ -14,6 +15,16 @@ import MyPokemon from "../MyPokemon/MyPokemon";
 
 
 export default function Header() {
+  const [id, setId] = useState(() => {
+    const saved = localStorage.getItem("id")
+    const initialValue = JSON.parse(saved)
+    return initialValue || ""
+  })
+
+  const logout = () => {
+    localStorage.removeItem("id")
+    window.location.reload()
+  }
     return (
       <Router>
         <Navbar
@@ -29,9 +40,10 @@ export default function Header() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto">
               <Link className="cstm-navlink" to="/list-pokemon">List Pokemon</Link>
-              <Link className="cstm-navlink" to="/my-pokemon">My Pokemon</Link>
-              <Link className="cstm-navlink" to="/login">Login</Link>
-              <Link className="cstm-navlink" to="/register">Register</Link>
+              {(id != "") ? <Link className="cstm-navlink" to="/my-pokemon">My Pokemon</Link> :[]}
+              {(id != "") 
+              ? <Link className="cstm-navlink" onClick={logout}>Logout</Link> 
+              :<Link className="cstm-navlink" to="/login">Login</Link>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -41,27 +53,12 @@ export default function Header() {
             <ListPokemon />
           </Route>
           <Route path="/my-pokemon">
-            <MyPokemon />
+            {id != "" ? <MyPokemon /> : <Redirect to="/login" /> }
           </Route>
           <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
+            {id == "" ? <Login /> : <Redirect to="/my-pokemon" /> }
           </Route>
         </Switch>
       </Router>
     );
-  }
-
-  function Home() {
-    return <h2>Home</h2>;
-  }
-  
-  function About() {
-    return <h2>About</h2>;
-  }
-  
-  function Users() {
-    return <h2>Users</h2>;
   }
