@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Card } from "react-bootstrap";
 import DetailPokemon from "./DetailPokemon";
 import globalVariable from "../../globalVariable";
 import axios from "axios";
@@ -56,8 +56,25 @@ class DataPokemon extends Component {
       );
 
     return (
-      <div>
-        <Table striped bordered hover size="sm">
+      <div className="row">
+        {dataPokemon.map((list) => {
+          return (
+            <Card 
+              className="my-card" 
+              key={list.name} 
+              style={{ width: "18rem",margin: "1rem" }}
+              onClick={() =>
+                this.detailPokemon(list.id, list.name, list.image)
+              }
+            >
+              <Card.Img variant="top" src={list.image} />
+              <Card.Body>
+                <Card.Title className="card-title">{list.name}</Card.Title>
+              </Card.Body>
+            </Card>
+          );
+        })}
+        {/* <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th className="th-name">Name</th>
@@ -88,7 +105,7 @@ class DataPokemon extends Component {
               );
             })}
           </tbody>
-        </Table>
+        </Table> */}
       </div>
     );
   }

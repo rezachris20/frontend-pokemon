@@ -1,10 +1,14 @@
-.my-image{
+.my-card{
     width: 9%;
 }
 
-.my-image:hover {
-    opacity: 1;
+.my-card:hover {
+    opacity: 12;
     cursor: pointer;
+    background-color: rgb(233, 229, 229);
+}
+.card-title{
+    text-align: center;
 }
 
 .th-name{
